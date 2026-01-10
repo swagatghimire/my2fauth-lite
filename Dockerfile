@@ -1,9 +1,7 @@
 FROM 2fauth/2fauth:latest
 
-# Create directory without permission changes (let 2FAuth handle it)
-RUN mkdir -p /srv/database
+# Use Render's PORT variable or default to 8000
+EXPOSE ${PORT:-8000}
 
-EXPOSE 8000
-
-# Simple PHP server - works every time
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000", "--no-reload"]
+# Start server - using Render's dynamic port
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --no-reload"]
